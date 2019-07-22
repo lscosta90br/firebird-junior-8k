@@ -28,7 +28,8 @@ SELECT = "select cargo, cod_cargo, descricao from cargos"
 cur.execute(SELECT)
 
 for fieldDesc in cur.description:
-    print (fieldDesc[fdb.DESCRIPTION_NAME].ljust(fieldDesc[fdb.DESCRIPTION_DISPLAY_SIZE])), print() # Finish the header with a newline.
+    print (fieldDesc[fdb.DESCRIPTION_NAME].ljust(fieldDesc[fdb.DESCRIPTION_DISPLAY_SIZE])), 
+print() # Finish the header with a newline.
 print ('-' * 78)
 
 fieldIndices = range(len(cur.description))
