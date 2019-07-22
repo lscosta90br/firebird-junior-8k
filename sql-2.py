@@ -15,6 +15,8 @@ cur = con.cursor()
 SELECT = "select cargo, cod_cargo, descricao from cargos"
 
 cur.execute(SELECT)
+# print (cur.fetchall())
+
 for (cargo, cod_cargo, descricao) in cur:
     print(f"Seu código do cargo é: {cod_cargo} e sua descricao é: {descricao}")
 
