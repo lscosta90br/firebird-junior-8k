@@ -24,8 +24,18 @@ for num_line in range(lines_data):
     
     # cor_proxima = data[(num_line)]['Cor'] 
     # codigo_proximo = data[num_line]['Codigo'] 
+
     proximo = num_line + 1
+    print(f' antes do if proximo: {proximo}')
+    if (proximo + 1) == lines_data:
+        print(f'Proximo if break {proximo+ 1}')
+        print(f'{num_line};{codigo};{produto};{cor};{tam_letra}')
+        break
+
     cor_proxima = data[proximo]['cor']
     codigo_proximo = data[proximo]['codigo']
+    
+    
     if (cor == cor_proxima) and (codigo == codigo_proximo):
         print(f'{num_line};{codigo};{produto};{cor};{tam_letra}')
+
