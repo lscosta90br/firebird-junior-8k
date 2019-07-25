@@ -1,26 +1,60 @@
 import csv
 
-file_name = "showroom-csv_v02.csv"
-try:
-    csvfile = open(file_name, 'rt')
-except:
-    print("Arquivo não encontrado")
-csvReader = csv.DictReader(csvfile, delimiter=";")
 
-# for lista in csvReader:
-#     for k, v in lista.items():
-#         print(f'O campo {k} tem valor {v}.')
+def ler_csv(arquivo):
+    try:
+        csvfile = open(arquivo, 'rt')
+    except:
+        print("Arquivo não encontrado")
 
-data = [cr for cr in csvReader]
-lines_data = len(data) 
+    csvReader = csv.DictReader(csvfile, delimiter=";")
+    data = [cr for cr in csvReader]
+    return data
+
+
+def adiciona_lista(tamanho, quantidade):
+    # cria o ultimo item da lista com tamanhos e quantidades
+    tam_new.append(tamanho)
+    qtde_new.append(quantidade)
+
+
+def cria_dicionario_registro_new(tamanho_new, quantidade_new, registros, imprime_tela):
+    adiciona_lista(tam_letra, qtde_ped)
+    # transforma lista em dicionario  tam_new ['P', 'M', 'G'] e qtde_new['2', '1', '1']
+    # em dicionario tamanhos { 'P': '2', 'M': '1', 'G': '1'}
+    tamanhos = dict(zip(tamanho_new, quantidade_new))
+    # cria dicionario => codigo, descricao e cor
+    registro_new = registros
+    # adiciona ao dicionario => (codigo, descricao e cor) + (tam e quantidade)
+    registro_new.update(tamanhos)
+    #adiciona dicionario na lista 
+    data_new.append(registro_new)
+    if imprime_tela == 'S':
+        print(registro_new)
+    #limpa os dicionarios para as proximas linhas
+    tam_new.clear()
+    qtde_new.clear()
+
+def gera_csv(arquivo, cabecalho, linhas, gera):
+    if gera == 'S':
+        with open(arquivo, mode='w', encoding='utf-8', newline='') as csv_file:
+            fieldnames = cabecalho
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames, delimiter=";") 
+            writer.writeheader()
+            for d in linhas:
+                writer.writerow(d)
+
+
+data = ler_csv('showroom-csv_v02.csv')
+lines_data = len(data)
+
+#cria variaveis para for
 cor_proxima = ''
 tamanhos = ''
-
 data_new = [] #lista
 registro_new = {} #dicionario
 tam_new = [] #lista
 qtde_new = [] #lista
-
 for num_line in range(lines_data):
 
     if num_line + 1  == (lines_data):
@@ -34,70 +68,50 @@ for num_line in range(lines_data):
     tam =  data[num_line]['Tam'] 
     tam_letra = tam[11:]
     qtde_ped =  data[num_line]['Qtde Ped.'] 
-    # print(f'numero linhas:{num_line} proximo:{num_line + 1} total linhas:{lines_data}')
 
+    #compara cor corrente com proxima cor e codigo_corrent com codigo_proximo 
+    # agrupando tam e qtd de codigos iguais
     if (cor == cor_proxima) and (codigo == codigo_proximo):
-        
-        tam_new.append(tam_letra)
-        qtde_new.append(qtde_ped)
+        # cria uma lista com tamanhos e quantidades
+        # tam_new.append(tam_letra)
+        # qtde_new.append(qtde_ped)
+        adiciona_lista(tam_letra, qtde_ped)
     else:
-        tam_new.append(tam_letra)
-        qtde_new.append(qtde_ped)
-        tamanhos = [list(x) for x in zip(tam_new, qtde_new)]
-        registro_new = {'codigo': codigo, 'descricao': descricao, 'cor': cor, 'tam': tamanhos}
-        # print(f'{num_line};{codigo};{descricao};{tamanhos}')
-        print(registro_new)
-        tam_new.clear()
-        qtde_new.clear()
+        # cria o ultimo item da lista com tamanhos e quantidades
+        cria_dicionario_registro_new(tamanho_new=tam_new, 
+                                    quantidade_new=qtde_new, 
+                                    registros={'codigo': codigo, 'descricao': descricao, 'cor': cor},
+                                    imprime_tela='S'
+                                )
+
+gera_csv(arquivo='zshowroom-19.csv', 
+        cabecalho=['codigo', 'descricao', 'cor', 'P', 'PP','M', 'MM', 'G', 'GG'] , 
+        linhas=data_new,
+        gera='S'
+    )
 
 
 
-    # if (cor == cor_proxima) and (codigo == codigo_proximo):
-    #     print(f'{num_line};{codigo};{descricao};{cor};{tamanhos}')
-#         tamanhos = tamanhos + tam_letra +  ';' + qtde_ped + ';'
-#         tamanhos_ultimo = tamanhos_ultimo + tam_letra +  ';' + qtde_ped + ';'
-#     else:
-#         tamanhos = tamanhos + tam_letra + ';' + qtde_ped + ';'
-#         tamanhos_ultimo = tamanhos_ultimo + tam_letra + qtde_ped + ';'
-#         print(f'{num_line};{vendedor};{codigo};{descricao};{cor};{tamanhos};{valor_pedido};{v_unit}')
-#         tamanhos = ''
+
+# ====================================
+    # writer.writeheader()
+    # writer.writerow({'nome': 'João Silva', 'depto': 'Contabilidade', 'mes_aniv': 'novembro'})
+    # writer.writerow({'nome': 'Catarina Andrade', 'depto': 'Informática', 'mes_aniv': 'março'})
 
 
+
+# print(data_new)
+# print('-'* 100)
+
+# for dw in data_new:
+#     for k, v in dw.items():
+#         print(v, end=';' )
+#     print()
+
+
+# data2 = [cr for cr in data2 ]
+# lines_data = len(data2) 
+# # for  in dw.items():
 # for num_line in range(lines_data):
-#     vendedor = data[num_line]['Vendedor']
 #     codigo = data[num_line]['Codigo'] 
-#     descricao = data[num_line]['Descricao'] 
-#     cor = data[num_line]['Cor'] 
-#     tam =  data[num_line]['Tam'] 
-#     tam_numero = tam[:11]
-#     tam_letra = tam[11:]
-#     qtde_ped =  data[num_line]['Qtde Ped.'] 
-#     valor_pedido =  data[num_line]['Valor pedido'] 
-#     v_unit=  data[num_line]['V. Unit.'] 
-    
-#     proximo = num_line + 1
-#     anterior = num_line - 1
-#     codigo_anterior = data[anterior]['Codigo'] 
-
-#     if (codigo != codigo_anterior) and (proximo + 1) == lines_data:
-#         tam =  data[num_line]['Tam'] 
-#         tam_letra = tam[11:]
-#         tamanhos_ultimo = tam_letra + ';' + qtde_ped 
-
-#     if (proximo + 1) == lines_data:
-#         print(f'{num_line};{vendedor};{codigo};{descricao};{cor};{tamanhos_ultimo};{valor_pedido};{v_unit}')
-#         break
-#     else:
-#         tamanhos_ultimo = ''
-
-#     cor_proxima = data[proximo]['Cor'] 
-#     codigo_proximo = data[proximo]['Codigo'] 
-#     valor_pedido_proximo =  data[proximo]['Valor pedido']
-#     if (cor == cor_proxima) and (codigo == codigo_proximo):
-#         tamanhos = tamanhos + tam_letra +  ';' + qtde_ped + ';'
-#         tamanhos_ultimo = tamanhos_ultimo + tam_letra +  ';' + qtde_ped + ';'
-#     else:
-#         tamanhos = tamanhos + tam_letra + ';' + qtde_ped + ';'
-#         tamanhos_ultimo = tamanhos_ultimo + tam_letra + qtde_ped + ';'
-#         print(f'{num_line};{vendedor};{codigo};{descricao};{cor};{tamanhos};{valor_pedido};{v_unit}')
-#         tamanhos = ''
+#     print(codigo)
