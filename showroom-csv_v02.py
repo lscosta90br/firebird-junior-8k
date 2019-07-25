@@ -18,7 +18,7 @@ def adiciona_lista(tamanho, quantidade):
     qtde_new.append(quantidade)
 
 
-def cria_dicionario_registro_new(tamanho_new, quantidade_new, registros, imprime_tela):
+def cria_dicionario_registro_new(tamanho_new, quantidade_new, registros):
     adiciona_lista(tam_letra, qtde_ped)
     # transforma lista em dicionario  tam_new ['P', 'M', 'G'] e qtde_new['2', '1', '1']
     # em dicionario tamanhos { 'P': '2', 'M': '1', 'G': '1'}
@@ -29,11 +29,18 @@ def cria_dicionario_registro_new(tamanho_new, quantidade_new, registros, imprime
     registro_new.update(tamanhos)
     #adiciona dicionario na lista 
     data_new.append(registro_new)
-    if imprime_tela == 'S':
-        print(registro_new)
     #limpa os dicionarios para as proximas linhas
+    
+
+def zera_lista_tamanho():
     tam_new.clear()
     qtde_new.clear()
+
+def imprime_registro_em_tela(imprime):
+    if imprime == 'S':
+        for d in data_new:
+            print(d)
+
 
 def gera_csv(arquivo, cabecalho, linhas, gera):
     if gera == 'S':
@@ -46,7 +53,7 @@ def gera_csv(arquivo, cabecalho, linhas, gera):
 
 
 data = ler_csv('showroom-csv_v02.csv')
-lines_data = len(data)
+lines_data = len(data) + 1
 
 #cria variaveis para for
 cor_proxima = ''
@@ -56,21 +63,30 @@ registro_new = {} #dicionario
 tam_new = [] #lista
 qtde_new = [] #lista
 for num_line in range(lines_data):
-
-    if num_line + 1  == (lines_data):
-        break
-
     codigo = data[num_line]['Codigo'] 
-    codigo_proximo = data[num_line + 1]['Codigo']     
     descricao = data[num_line]['Descricao'] 
     cor = data[num_line]['Cor'] 
-    cor_proxima = data[(num_line + 1)]['Cor'] 
     tam =  data[num_line]['Tam'] 
     tam_letra = tam[11:]
     qtde_ped =  data[num_line]['Qtde Ped.'] 
 
+    num_line_plus_plus = num_line + 2
+    codigo_anterior = data[num_line - 1]['Codigo'] 
+    if (codigo != codigo_anterior) and (num_line_plus_plus) == lines_data:
+        cria_dicionario_registro_new(tamanho_new=tam_new, 
+                            quantidade_new=qtde_new, 
+                            registros={'codigo': codigo, 'descricao': descricao, 'cor': cor},
+                        )
+
+    if num_line_plus_plus == lines_data:
+        break
+    else:
+        zera_lista_tamanho()
+
     #compara cor corrente com proxima cor e codigo_corrent com codigo_proximo 
     # agrupando tam e qtd de codigos iguais
+    codigo_proximo = data[num_line + 1]['Codigo']     
+    cor_proxima = data[(num_line + 1)]['Cor'] 
     if (cor == cor_proxima) and (codigo == codigo_proximo):
         # cria uma lista com tamanhos e quantidades
         # tam_new.append(tam_letra)
@@ -81,9 +97,9 @@ for num_line in range(lines_data):
         cria_dicionario_registro_new(tamanho_new=tam_new, 
                                     quantidade_new=qtde_new, 
                                     registros={'codigo': codigo, 'descricao': descricao, 'cor': cor},
-                                    imprime_tela='S'
                                 )
 
+imprime_registro_em_tela(imprime='S')
 gera_csv(arquivo='zshowroom-19.csv', 
         cabecalho=['codigo', 'descricao', 'cor', 'P', 'PP','M', 'MM', 'G', 'GG'] , 
         linhas=data_new,
