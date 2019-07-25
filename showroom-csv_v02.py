@@ -105,29 +105,3 @@ gera_csv(arquivo='zshowroom-19.csv',
         linhas=data_new,
         gera='S'
     )
-
-
-
-
-# ====================================
-    # writer.writeheader()
-    # writer.writerow({'nome': 'João Silva', 'depto': 'Contabilidade', 'mes_aniv': 'novembro'})
-    # writer.writerow({'nome': 'Catarina Andrade', 'depto': 'Informática', 'mes_aniv': 'março'})
-
-
-
-# print(data_new)
-# print('-'* 100)
-
-# for dw in data_new:
-#     for k, v in dw.items():
-#         print(v, end=';' )
-#     print()
-
-
-# data2 = [cr for cr in data2 ]
-# lines_data = len(data2) 
-# # for  in dw.items():
-# for num_line in range(lines_data):
-#     codigo = data[num_line]['Codigo'] 
-#     print(codigo)
