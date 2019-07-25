@@ -37,13 +37,13 @@ def zera_lista_tamanho():
     qtde_new.clear()
 
 def imprime_registro_em_tela(imprime):
-    if imprime == 'S':
+    if imprime == 'S' or imprime == 's':
         for d in data_new:
             print(d)
 
 
 def gera_csv(arquivo, cabecalho, linhas, gera):
-    if gera == 'S':
+    if gera == 'S' or gera == 's':
         with open(arquivo, mode='w', encoding='utf-8', newline='') as csv_file:
             fieldnames = cabecalho
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames, delimiter=";") 
@@ -99,7 +99,7 @@ for num_line in range(lines_data):
                                     registros={'codigo': codigo, 'descricao': descricao, 'cor': cor},
                                 )
 
-imprime_registro_em_tela(imprime='S')
+imprime_registro_em_tela(imprime='')
 gera_csv(arquivo='zshowroom-19.csv', 
         cabecalho=['codigo', 'descricao', 'cor', 'P', 'PP','M', 'MM', 'G', 'GG'] , 
         linhas=data_new,
