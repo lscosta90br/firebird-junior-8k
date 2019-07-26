@@ -71,7 +71,14 @@ def ler_csv(arquivo):
 
 
 #     # # print(f'p002 num_line:{num_line} tam_letra: {tam_letra}')
-
+def gera_csv(arquivo, cabecalho, linhas, gera):
+    if gera == 'S' or gera == 's':
+        with open(arquivo, mode='w', encoding='utf-8', newline='') as csv_file:
+            fieldnames = cabecalho
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames, delimiter=";") 
+            writer.writeheader()
+            for d in linhas:
+                writer.writerow(d)
 
 
 
