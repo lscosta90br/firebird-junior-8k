@@ -5,29 +5,14 @@ import uteis as u
 data = u.ler_csv('showroom-csv_v02.csv')
 
 lines_data = len(data) 
-# print(f's-007 lines_data:{lines_data}')
 
-
-# campos= {  'codigo': 'Codigo',
-#                 'descricao': 'Descricao',
-#                 'cor': 'Cor',
-#                 'tam': 'Tam',
-#                 'quantidade': 'Qtde Ped.',
-#          }
 for num_line in range(lines_data):
     codigo = data[num_line]['Codigo'] 
     descricao = data[num_line]['Descricao'] 
     cor = data[num_line]['Cor'] 
     tam =  data[num_line]['Tam'] 
     quantidade =  data[num_line]['Qtde Ped.'] 
-    # for k, v in campos.items():
-    #     # print (f'{k} = data[num_line][\'{v}\']')
-    #     print()
-    #     print()
-    #     # print (f'{k} = data[num_line][\'{v}\']')
-    #     eval("k = data[num_line]['v']")
-    #     print()
-        
+
     tamanho = u.ajusta_tamanho(tamanho=tam)
 
     if num_line <= (lines_data -2):
@@ -42,8 +27,6 @@ for num_line in range(lines_data):
 
 data_last = u.data_new
 
-# print(f's029. data_last: {data_last}')
-# print()
 
 lines_data2 = len(data) - 1
 # print(f's-007 lines_data2:{lines_data2}')
