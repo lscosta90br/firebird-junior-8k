@@ -6,13 +6,22 @@ data = u.ler_csv('showroom-csv_v02.csv')
 
 lines_data = len(data) 
 
-for num_line in range(lines_data):
-    codigo = data[num_line]['Codigo'] 
-    descricao = data[num_line]['Descricao'] 
-    cor = data[num_line]['Cor'] 
-    tam =  data[num_line]['Tam'] 
-    quantidade =  data[num_line]['Qtde Ped.'] 
+campos= { 
+    'codigo': 'Codigo',
+    'descricao': 'Descricao',
+    'cor': 'Cor',
+    'tam': 'Tam',
+    'quantidade': 'Qtde Ped.',
+    }
 
+
+for num_line in range(lines_data):
+    for k,v in campos.items():
+        exec(k +" = data[" + "num_line" +"]['"+ v + "']" )
+        # print(k +" = data[" + "num_line" +"]['"+ v + "']" )
+        
+
+        
     tamanho = u.ajusta_tamanho(tamanho=tam)
 
     if num_line <= (lines_data -2):
@@ -20,10 +29,11 @@ for num_line in range(lines_data):
         cor_proxima = data[(num_line + 1)]['Cor'] 
         u.cria_adicao_lista(num_line=num_line, tamanho=tamanho, quantidade=quantidade,
                 cor=cor, cor_proxima=cor_proxima, codigo = codigo, codigo_proximo=codigo_proximo,
-                registros={ 'codigo': codigo,
-                            'descricao': descricao, 
-                            'cor': cor
-                })
+                registros=
+                    { 'codigo': codigo,
+                    'descricao': descricao, 
+                    'cor': cor
+                    })
 
 data_last = u.data_new
 
@@ -37,11 +47,10 @@ quantidade_new = [] #lista
 registro_new = {} #dicionario
 data_new = [] #lista
 for num_line in range(lines_data2, -1, -1):
-    codigo = data[num_line]['Codigo'] 
-    descricao = data[num_line]['Descricao'] 
-    cor = data[num_line]['Cor'] 
-    tam =  data[num_line]['Tam'] 
-    quantidade =  data[num_line]['Qtde Ped.'] 
+    for k,v in campos.items():
+        exec(k +" = data[" + "num_line" +"]['"+ v + "']" )
+        # print(k +" = data[" + "num_line" +"]['"+ v + "']" )
+    
     tamanho = u.ajusta_tamanho(tamanho=tam)
 
     # print(f's048. num_line:{num_line} lines_data2:{lines_data2} codigo: {codigo}' )
@@ -55,12 +64,13 @@ for num_line in range(lines_data2, -1, -1):
 
         registros={ 'codigo': codigo, 'descricao': descricao, 'cor': cor}
     else:
+        u.adicao_tamanho_completo(tamanho= tamanho_new, quantidade=quantidade_new)
         tamanhos = dict(zip(tamanho_new, quantidade_new))
         # print(f's058.=> num_line: {num_line} tamanhos: {tamanhos}')    
         
         registro_new = registros
         registro_new.update(tamanhos)
-        print(f'u064. => num_line: {num_line} registro_new: {registro_new}')
+        # print(f's078. => num_line: {num_line} registro_new: {registro_new}')
 
         data_last.append(registro_new)
         break
@@ -71,5 +81,6 @@ u.gera_csv(arquivo='zshowroom-19.csv',
         gera='S'
     )
 
-print(f's069 data_last {data_last}')
+# print(f's069 data_last {data_last}')
+
 

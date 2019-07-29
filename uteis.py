@@ -1,5 +1,14 @@
 import csv
 
+# from showroom-csv_v0201 import quantidade_new
+
+tamanho_lista = ['P', 'PP', 'M', 'G', 'GG', 'T2', 'T4', 'T6', 'T8', 'T10']
+def adicao_tamanho_completo(tamanho, quantidade):
+    for tl in tamanho_lista:
+        if tl not in tamanho:
+            # print(f'{tl} não está na lista')
+            tamanho.append(tl)
+            quantidade.append(0)
 
 def ajusta_tamanho(tamanho):
     tamanho = tamanho[11:]
@@ -19,7 +28,7 @@ data_new = [] #lista
 def cria_adicao_lista(num_line, tamanho, quantidade,  
                     cor, cor_proxima, codigo, codigo_proximo,
                     registros
-                 ):
+                ):
     if (cor == cor_proxima) and (codigo == codigo_proximo):
         # agrupa tamnaho e quantidade
         tamanho_new.append(tamanho)
@@ -29,7 +38,7 @@ def cria_adicao_lista(num_line, tamanho, quantidade,
         quantidade_new.append(quantidade)
         # print(f'u030.cria_adicao_lista=> num_line: {num_line} tamanho_new: {tamanho_new} quantidade_new:{quantidade_new}')
 
-
+        adicao_tamanho_completo(tamanho= tamanho_new, quantidade=quantidade_new)
         # transforma lista em dicionario  tam_new ['P', 'M', 'G'] e qtde_new['2', '1', '1']
         # em dicionario tamanhos { 'P': '2', 'M': '1', 'G': '1'}
         tamanhos = dict(zip(tamanho_new, quantidade_new))
